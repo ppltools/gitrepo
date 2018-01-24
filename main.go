@@ -11,7 +11,6 @@ import (
 )
 
 var (
-	l bool // long mode, create full path, otherwise, create in github.com
 	d bool // enable debug
 )
 
@@ -39,7 +38,6 @@ const (
 )
 
 func init() {
-	flag.BoolVar(&l, "l", false, "get source code with full path")
 	flag.BoolVar(&d, "d", false, "verbose")
 
 	log.SetFlags(log.LstdFlags)
@@ -55,9 +53,6 @@ func main() {
 	flag.Parse()
 
 	args := os.Args[1:]
-	if l {
-		args = args[1:]
-	}
 
 	if d {
 		args = args[1:]
