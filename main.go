@@ -12,6 +12,7 @@ import (
 
 var (
 	d bool // enable debug
+    s bool // short path, directly under github
 )
 
 const (
@@ -39,6 +40,7 @@ const (
 
 func init() {
 	flag.BoolVar(&d, "d", false, "verbose")
+    flag.BoolVar(&s, "s", false, "short path")
 
 	log.SetFlags(log.LstdFlags)
 
@@ -58,11 +60,18 @@ func main() {
 		args = args[1:]
 	}
 
+    if s {
+        args = args[1:]
+    }
+
 	// get gopath
 	gopath := os.Getenv("GOPATH")
 	if pos := strings.IndexByte(gopath, ':'); pos > 0 {
 		gopath = gopath[:pos-1]
 	}
+    if gopath == "" {
+        log.Fatalf(FMT+" GOPATH is not defined\n", RED, ERROR)
+    }
 
 	for _, arg := range args {
 		gitrepo, group, module, ok := validate(arg)
@@ -74,7 +83,12 @@ func main() {
 }
 
 func gitPull(gopath, gitrepo, repo, group, module string) {
-	groupPath := fmt.Sprintf("%s/src/%s/%s", gopath, gitrepo, group)
+    var groupPath string
+    if s {
+	    groupPath = fmt.Sprintf("%s/src/%s", gopath, gitrepo)
+    } else {
+	    groupPath = fmt.Sprintf("%s/src/%s/%s", gopath, gitrepo, group)
+    }
 	err := os.MkdirAll(groupPath, 0755)
 	if err != nil {
 		log.Fatalf(FMT+" create dir %s failed: %s", RED, ERROR, groupPath, err)
