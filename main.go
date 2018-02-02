@@ -64,6 +64,10 @@ func main() {
 		args = args[1:]
 	}
 
+	if len(args) == 0 {
+		log.Fatalf(FMT+" usage: gitrepo repo1 repo2 repo3 ...", RED, ERROR)
+	}
+
 	// get gopath
 	gopath := os.Getenv("GOPATH")
 	if pos := strings.IndexByte(gopath, ':'); pos > 0 {
