@@ -3,6 +3,9 @@ help to download repo from github, gitlab..., or somewhere else
 ### install
 go get github.com/ppltools/gitrepo
 
+### upgrade
+go get -u github.com/ppltools/gitrepo
+
 ### usage
 very easy to use:
 - gitrepo [-d] github.com/ppltools/gitrepo

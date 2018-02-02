@@ -65,7 +65,7 @@ func main() {
 	}
 
 	if len(args) == 0 {
-		log.Fatalf(FMT+" usage: gitrepo repo1 repo2 repo3 ...", RED, ERROR)
+		log.Fatalf(FMT+" usage: gitrepo [-d] [-s] repo1 repo2 repo3 ...", RED, ERROR)
 	}
 
 	// get gopath
