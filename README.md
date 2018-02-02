@@ -1,7 +1,11 @@
-help to download src code from github.com, or somewhere else
+help to download repo from github, gitlab..., or somewhere else
 
+### install
+go get github.com/ppltools/gitrepo
+
+### usage
 very easy to use:
-- github [-d] github.com/pplonepiece/get_github_repo
-- github [-d] repo1 repo2 repo3 ... 
+- gitrepo [-d] github.com/ppltools/gitrepo
+- gitrepo [-d] repo1 repo2 repo3 ...
 
-if the repo is already downloaded, it will show warning information
+Showing warning information when the repo is already downloaded

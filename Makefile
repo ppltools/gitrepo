@@ -1,4 +1,4 @@
-OBJ:=github
+OBJ:=gitrepo
 
 build:
 	go build -o ${OBJ} main.go
