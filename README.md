@@ -1,4 +1,6 @@
-help to download repo from github, gitlab..., or somewhere else
+### an replacement of `go get`
+help to download repo from github, gitlab..., or somewhere else,
+without generating bin file
 
 ### install
 go get github.com/ppltools/gitrepo
