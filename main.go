@@ -32,13 +32,15 @@ func gitDownload(gopath, gitrepo, repo, group, module string) {
 	ChangePath(groupPath)
 
 	if _, err := os.Stat(module); err == nil {
-		cmsg.Info("module %s is already exists", fmt.Sprintf("%s/%s", groupPath, module))
+		cmsg.Warn("module %s is already exists", fmt.Sprintf("%s/%s", groupPath, module))
 
 		if u {
 			ChangePath(module)
-
 			RunCmd("git", []string{"pull"}, cmsg.Die, "git pull %s failed: %s", repo)
+			return
 		}
+
+		cmsg.Info("use -u option for updating")
 		return
 	}
 

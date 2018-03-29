@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"os"
+
+	"github.com/ppltools/cmsg"
 )
 
 var (
@@ -24,6 +26,7 @@ func flagParse() []string {
 
 	if v {
 		args = args[1:]
+		cmsg.Default.IsDebugging = true
 	}
 
 	if s {
