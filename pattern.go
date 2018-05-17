@@ -11,6 +11,12 @@ var (
 	exps []*regexp.Regexp
 )
 
+type GitRepo struct {
+	gitrepo string
+	group   string
+	module  string
+}
+
 const (
 	HTTPSPAT  = `^https\://([\w-]+(\.[\w-]+){1,2})/([\w-]+)/([\w-]+)\.git$`
 	HTTPSPAT2 = `^https\://([\w-]+(\.[\w-]+){1,2})/([\w-]+)/([\w-]+)$`
@@ -27,7 +33,7 @@ func init() {
 	}
 }
 
-func validate(repo string) (string, string, string, bool) {
+func validate(repo string) (GitRepo, bool) {
 	for _, exp := range exps {
 		res := exp.MatchString(repo)
 		if res {
@@ -40,8 +46,8 @@ func validate(repo string) (string, string, string, bool) {
 				cmsg.Info("repo %s matched, repository: %s, group: %s, module: %s",
 					repo, splits[length-4], splits[length-2], splits[length-1])
 			}
-			return splits[length-4], splits[length-2], splits[length-1], true
+			return GitRepo{splits[length-4], splits[length-2], splits[length-1]}, true
 		}
 	}
-	return "", "", "", false
+	return GitRepo{"", "", ""}, false
 }

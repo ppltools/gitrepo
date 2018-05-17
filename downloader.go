@@ -18,7 +18,7 @@ type Downloader interface {
 	GetPath() string
 	CreatePath(root string, gitrepo string, group string) string
 
-	Download(gitrepo, repo, group, module string)
+	Download(gr GitRepo, repo string)
 }
 
 func NewDownloader() Downloader {

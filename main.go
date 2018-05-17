@@ -14,10 +14,10 @@ func main() {
 	downloader := NewDownloader()
 
 	for _, arg := range args {
-		gitrepo, group, module, ok := validate(arg)
+		gitrepo, ok := validate(arg)
 		if !ok {
 			cmsg.Die("invalid name of repository: %s\n", arg)
 		}
-		downloader.Download(gitrepo, arg, group, module)
+		downloader.Download(gitrepo, arg)
 	}
 }

@@ -50,17 +50,17 @@ func (d *Download) CreatePath(gopath, gitrepo, group string) string {
 	return groupPath
 }
 
-func (d *Download) Download(gitrepo, repo, group, module string) {
-	cmsg.Debug("%s %s %s %s\n", gitrepo, repo, group, module)
+func (d *Download) Download(gr GitRepo, repo string) {
+	cmsg.Debug("%s %s %s %s\n", gr.gitrepo, repo, gr.group, gr.module)
 
-	groupPath := d.CreatePath(d.GetPath(), gitrepo, group)
+	groupPath := d.CreatePath(d.GetPath(), gr.gitrepo, gr.group)
 	ChangePath(groupPath)
 
-	if _, err := os.Stat(module); err == nil {
-		cmsg.Warn("module %s is already exists", fmt.Sprintf("%s/%s", groupPath, module))
+	if _, err := os.Stat(gr.module); err == nil {
+		cmsg.Warn("module %s is already exists", fmt.Sprintf("%s/%s", groupPath, gr.module))
 
 		if u {
-			ChangePath(module)
+			ChangePath(gr.module)
 			RunCmd("git", []string{"pull"}, cmsg.Die, "git pull %s failed: %s", repo)
 			return
 		}
@@ -69,7 +69,7 @@ func (d *Download) Download(gitrepo, repo, group, module string) {
 		return
 	}
 
-	RunCmd("git", []string{"clone", fmt.Sprintf("git@%s:%s/%s.git", gitrepo, group, module)},
+	RunCmd("git", []string{"clone", fmt.Sprintf("git@%s:%s/%s.git", gr.gitrepo, gr.group, gr.module)},
 		cmsg.Die, "git clone repo %s failed: %s", repo)
 
 	cmsg.Info("git clone %s successfully", repo)
