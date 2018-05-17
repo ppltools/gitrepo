@@ -8,30 +8,38 @@ import (
 	"github.com/ppltools/cmsg"
 )
 
-type ComDownload struct {
-	LangEnv  string
-	ShortFmt string
-	LongFmt  string
+type Download struct {
+	LangEnv  string // name of env path
+	ShortFmt string // short format: path of the source code, eg: PATH/code
+	LongFmt  string // long format: path of the source code, eg: PATH/gitrepo/group/code
 }
 
-func (com *ComDownload) GetPath() string {
-	path := os.Getenv(com.LangEnv)
+func NewDownload(env, sf, lf string) *Download {
+	return &Download{
+		LangEnv:  env,
+		ShortFmt: sf,
+		LongFmt:  lf,
+	}
+}
+
+func (d *Download) GetPath() string {
+	path := os.Getenv(d.LangEnv)
 	if pos := strings.IndexByte(path, ':'); pos > 0 {
 		path = path[:pos-1]
 	}
 	if path == "" {
-		cmsg.Die(com.LangEnv + " is not defined\n")
+		cmsg.Die(d.LangEnv + " is not defined\n")
 	}
 
 	return path
 }
 
-func (com *ComDownload) CreatePath(gopath, gitrepo, group string) string {
+func (d *Download) CreatePath(gopath, gitrepo, group string) string {
 	var groupPath string
 	if s {
-		groupPath = fmt.Sprintf(com.ShortFmt, gopath)
+		groupPath = fmt.Sprintf(d.ShortFmt, gopath)
 	} else {
-		groupPath = fmt.Sprintf(com.LongFmt, gopath, gitrepo, group)
+		groupPath = fmt.Sprintf(d.LongFmt, gopath, gitrepo, group)
 	}
 
 	err := os.MkdirAll(groupPath, 0755)
@@ -42,10 +50,10 @@ func (com *ComDownload) CreatePath(gopath, gitrepo, group string) string {
 	return groupPath
 }
 
-func (com *ComDownload) Download(gitrepo, repo, group, module string) {
+func (d *Download) Download(gitrepo, repo, group, module string) {
 	cmsg.Debug("%s %s %s %s\n", gitrepo, repo, group, module)
 
-	groupPath := com.CreatePath(com.GetPath(), gitrepo, group)
+	groupPath := d.CreatePath(d.GetPath(), gitrepo, group)
 	ChangePath(groupPath)
 
 	if _, err := os.Stat(module); err == nil {

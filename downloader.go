@@ -4,6 +4,16 @@ import (
 	"github.com/ppltools/cmsg"
 )
 
+const (
+	CPATH  = "CPATH"
+	GOPATH = "GOPATH"
+
+	CFmtShort  = "%s"
+	CFmtLong   = "%s/%s/%s"
+	GoFmtShort = "%s/src"
+	GoFmtLong  = "%s/src/%s/%s"
+)
+
 type Downloader interface {
 	GetPath() string
 	CreatePath(root string, gitrepo string, group string) string
@@ -14,9 +24,9 @@ type Downloader interface {
 func NewDownloader() Downloader {
 	switch l {
 	case "go":
-		return NewGoDown()
+		return NewDownload(GOPATH, GoFmtShort, GoFmtLong)
 	case "c":
-		return NewCDown()
+		return NewDownload(CPATH, CFmtShort, CFmtLong)
 	default:
 		cmsg.Die("Unsupport language: %s", l)
 	}
