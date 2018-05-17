@@ -15,6 +15,8 @@ func NewDownloader() Downloader {
 	switch l {
 	case "go":
 		return NewGoDown()
+	case "c":
+		return NewCDown()
 	default:
 		cmsg.Die("Unsupport language: %s", l)
 	}

@@ -41,9 +41,10 @@ func flagParse() []string {
 
 	if l != "" {
 		args = args[2:]
+	} else {
+		// default language: go
+		l = "go"
 	}
-	// default language: go
-	l = "go"
 
 	return args
 }
