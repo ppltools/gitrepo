@@ -8,15 +8,17 @@ import (
 )
 
 var (
-	v bool // enable debug
-	s bool // short path, directly under github
-	u bool // force update
+	v bool   // enable debug
+	s bool   // short path, directly under github
+	u bool   // force update
+	l string // language of repo
 )
 
 func init() {
 	flag.BoolVar(&v, "v", false, "verbose")
 	flag.BoolVar(&s, "s", false, "short path")
 	flag.BoolVar(&u, "u", false, "update")
+	flag.StringVar(&l, "l", "", "language")
 }
 
 func flagParse() []string {
@@ -36,6 +38,12 @@ func flagParse() []string {
 	if u {
 		args = args[1:]
 	}
+
+	if l != "" {
+		args = args[2:]
+	}
+	// default language: go
+	l = "go"
 
 	return args
 }
