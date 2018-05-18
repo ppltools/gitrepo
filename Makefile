@@ -1,7 +1,7 @@
 OBJ:=gitrepo
 
 build:
-	go build -o ${OBJ} main.go
+	go build -o ${OBJ} *.go
 
 clean:
 	-rm ${OBJ}
