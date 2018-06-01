@@ -69,8 +69,12 @@ func (d *Download) Download(gr GitRepo, repo string) {
 		return
 	}
 
-	RunCmd("git", []string{"clone", fmt.Sprintf("git@%s:%s/%s.git", gr.gitrepo, gr.group, gr.module)},
-		cmsg.Die, "git clone repo %s failed: %s", repo)
+	err := RunCmd("git", []string{"clone", fmt.Sprintf("git@%s:%s/%s.git", gr.gitrepo, gr.group, gr.module)},
+		cmsg.Warn, "git clone repo %s failed: %s", repo)
+	if err != nil {
+		RunCmd("git", []string{"clone", fmt.Sprintf("https:%s/%s/%s.git", gr.gitrepo, gr.group, gr.module)},
+			cmsg.Die, "git clone repo %s failed: %s", repo)
+	}
 
 	cmsg.Info("git clone %s successfully", repo)
 }

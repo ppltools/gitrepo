@@ -8,7 +8,7 @@ import (
 	"github.com/ppltools/cmsg"
 )
 
-func RunCmd(cmd string, args []string, msgFunc cmsg.MsgFunc, msgInfo string, msgArgs ...string) {
+func RunCmd(cmd string, args []string, msgFunc cmsg.MsgFunc, msgInfo string, msgArgs ...string) error {
 	cmsg.Info("run command: %s %s", cmd, strings.Join(args, " "))
 
 	c := exec.Command(cmd, args...)
@@ -16,6 +16,8 @@ func RunCmd(cmd string, args []string, msgFunc cmsg.MsgFunc, msgInfo string, msg
 	if err != nil {
 		msgFunc(msgInfo, msgArgs, err)
 	}
+
+	return err
 }
 
 func ChangePath(dir string) {
